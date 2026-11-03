@@ -235,7 +235,7 @@ def _is_blank_error(e):
 
 
 def _blank_msg():
-    print("✏️  There's still a blank (___) to fill in! Replace every ___ with code, then run the cell again.")
+    print("There's still a blank (___) to fill in! Replace every ___ with code, then run the cell again.")
 
 
 def _args(args):
@@ -438,7 +438,7 @@ def test_solver(solver, num_games=100, seed=2026):
     """Play `num_games` random secret words and report the average number of guesses."""
     name = getattr(solver, "__name__", "your solver")
     secrets = random.Random(seed).sample(_WORDS, num_games)
-    print(f"🧪 Testing {name} on {num_games} secret words...")
+    print(f"Testing {name} on {num_games} secret words...")
     start, scores = time.time(), []
     try:
         for secret in secrets:
@@ -458,7 +458,7 @@ def test_solver(solver, num_games=100, seed=2026):
             print(f"   {n:>2} {'guess  ' if n == 1 else 'guesses'} | {'█' * round(30 * k / biggest)} {k}")
     if FAIL_SCORE in scores:
         print(f"   not solved | {'█' * round(30 * scores.count(FAIL_SCORE) / biggest)} {scores.count(FAIL_SCORE)}")
-    print(f"\n   ⏱️  {time.time() - start:.1f} seconds")
+    print(f"\n   Time: {time.time() - start:.1f} seconds")
     return avg
 
 
@@ -470,10 +470,10 @@ def _berkeley_solver(candidates, history):
 
 
 def competition(solver, code=90, num_words=20, reveal=False):
-    """🏆 Play 20 secret words and compare against the Berkeley student's solver."""
+    """Play 20 secret words and compare against the Berkeley student's solver."""
     secrets = random.Random(f"eecs-day-{code}").sample(_WORDS, num_words)
     name = getattr(solver, "__name__", "your solver")
-    print(f"🏆 Competition code {code}: {name} vs. the Berkeley student on {num_words} secret words...")
+    print(f"Competition code {code}: {name} vs. the Berkeley student on {num_words} secret words...")
     start, games = time.time(), []
     for i, secret in enumerate(secrets, 1):
         try:
@@ -482,7 +482,7 @@ def competition(solver, code=90, num_words=20, reveal=False):
             if _is_blank_error(e):
                 _blank_msg()
                 return None
-            print(f"💥 Your solver crashed on secret word #{i}.")
+            print(f"Your solver crashed on secret word #{i}.")
             raise
     elapsed = time.time() - start
     bot_games = [_play(_berkeley_solver, s, MAX_GUESSES) for s in secrets]
@@ -502,13 +502,13 @@ def competition(solver, code=90, num_words=20, reveal=False):
                     f"<td style='text-align:center'><b>{y}</b></td><td style='text-align:center'>{b}</td>"
                     f"<td style='text-align:center'>{mark}</td></tr>")
     if you_avg < bot_avg - 1e-9:
-        verdict = "🎉 YOU OUTPERFORMED THE BERKELEY STUDENT! Show a TA!"
+        verdict = "You outperformed the Berkeley student! Show a TA!"
         color = "#538d4e"
     elif abs(you_avg - bot_avg) < 1e-9:
-        verdict = "🤝 Dead even! Can you squeeze out one more guess?"
+        verdict = "Dead even! Can you squeeze out one more guess?"
         color = "#b59f3b"
     else:
-        verdict = "😤 The Berkeley student wins this round. Try a bonus idea and run it again!"
+        verdict = "The Berkeley student wins this round. Try a bonus idea and run it again!"
         color = "#787c7e"
     th = "style='text-align:left;padding:4px 8px;border-bottom:2px solid #d3d6da'"
     display(HTML(f"""
@@ -516,11 +516,11 @@ def competition(solver, code=90, num_words=20, reveal=False):
             border-radius:12px;padding:16px 20px;max-width:640px">
   <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
     <div style="flex:1;min-width:180px;background:#f6f7f8;border-radius:10px;padding:12px;text-align:center">
-      <div style="font-size:13px;color:#555">🧑‍💻 You ({html.escape(name)})</div>
+      <div style="font-size:13px;color:#555">You ({html.escape(name)})</div>
       <div style="font-size:40px;font-weight:800">{you_avg:.2f}</div>
       <div style="font-size:12px;color:#555">average guesses</div></div>
     <div style="flex:1;min-width:180px;background:#f6f7f8;border-radius:10px;padding:12px;text-align:center">
-      <div style="font-size:13px;color:#555">🐻 Berkeley student</div>
+      <div style="font-size:13px;color:#555">Berkeley student</div>
       <div style="font-size:40px;font-weight:800">{bot_avg:.2f}</div>
       <div style="font-size:12px;color:#555">average guesses</div></div>
   </div>
